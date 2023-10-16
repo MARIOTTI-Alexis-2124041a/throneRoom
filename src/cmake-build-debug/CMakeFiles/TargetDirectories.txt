@@ -1,0 +1,3 @@
+/home/antoine/CLionProjects/barberShop/cmake-build-debug/CMakeFiles/barberShop.dir
+/home/antoine/CLionProjects/barberShop/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/antoine/CLionProjects/barberShop/cmake-build-debug/CMakeFiles/rebuild_cache.dir
