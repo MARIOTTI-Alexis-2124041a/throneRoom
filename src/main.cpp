@@ -2,10 +2,8 @@
 #include <thread>
 #include <semaphore>
 #include <vector>
-#include "King.cpp"
+#include "King.h"
 #include "Subject.cpp"
-#include "globals.h"
-#include <curses.h>
 
 using namespace std;
 
@@ -18,27 +16,29 @@ void addSubject(unsigned subjectNumber){
 
 int main() {
 
-    King charlesV = King(); //this is the king represented by a King object
+    King* charlesV = King::getInstance(); //this is the king represented by a King object
 
     vector<thread> subjectsVector; //vector of threads, used to easily manipulate all the subjects threads
 
-    thread adminCourt(&King::administerTheCourt, &charlesV);
+    thread adminCourt(&King::administerTheCourt, std::ref(charlesV)); //starting the main method of the king into a new thread. This method contain an infinite loop
 
+    // filling the vector of subjects
     unsigned numberOfSubjects = 0;
     for (int i = 0; i < 150; i++) {
         subjectsVector.emplace_back(&addSubject, numberOfSubjects);
         numberOfSubjects += 1;
     }
 
+    // rendezvouses of subjects threads
     for (auto &s: subjectsVector) {
         s.join();
     }
 
+    //generate a late  subject to verify if king is still working
     this_thread::sleep_for(10s);
-
     thread lateMan(&addSubject, numberOfSubjects);
-
     lateMan.join();
-    adminCourt.detach();
+
+    adminCourt.detach(); //terminate the king infinite loop thread
     return 0;
 }
