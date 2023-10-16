@@ -8,6 +8,7 @@ using namespace std;
 
 unsigned  n = 10;
 unsigned  subjects = 0;
+
 binary_semaphore queueMutex(1);
 binary_semaphore king(0);
 binary_semaphore subject(0);
