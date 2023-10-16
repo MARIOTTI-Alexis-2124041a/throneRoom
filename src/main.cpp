@@ -2,34 +2,43 @@
 #include <thread>
 #include <semaphore>
 #include <vector>
+#include "King.cpp"
+#include "Subject.cpp"
+#include "globals.h"
+#include <curses.h>
 
 using namespace std;
 
-std::binary_semaphore semaphore(3); // Sémaphore binaire avec une capacité de 3
-
-void utiliser_une_ressource(int thread_id) {
-    cout << "Thread " << thread_id << " veut utiliser une ressource." << std::endl;
-    semaphore.acquire(); // Acquérir un jeton
-    cout << "Thread " << thread_id << " a obtenu une ressource." << std::endl;
-    // Simuler une utilisation de la ressource (attente)
-    this_thread::sleep_for(chrono::seconds(2));
-    cout << "Thread " << thread_id << " a terminé d'utiliser la ressource." << std::endl;
-    semaphore.release(); // Libérer un jeton
-    cout << "Thread " << thread_id << " a relâché la ressource." << std::endl;
+//function used for add a new subject into the throne room
+void addSubject(unsigned subjectNumber){
+    cout << "creation sujet numéro" << subjectNumber << endl;
+    Subject sub = Subject(subjectNumber);
+    sub.joinTheQueue();
 }
 
 int main() {
-    vector<std::thread> threads;
 
-    for (int i = 0; i < 5; i++) {
-        threads.emplace_back(utiliser_une_ressource, i);
+    King charlesV = King(); //this is the king represented by a King object
+
+    vector<thread> subjectsVector; //vector of threads, used to easily manipulate all the subjects threads
+
+    thread adminCourt(&King::administerTheCourt, &charlesV);
+
+    unsigned numberOfSubjects = 0;
+    for (int i = 0; i < 150; i++) {
+        subjectsVector.emplace_back(&addSubject, numberOfSubjects);
+        numberOfSubjects += 1;
     }
 
-    for (auto& thread : threads) {
-        thread.join();
+    for (auto &s: subjectsVector) {
+        s.join();
     }
 
-    std::cout << "Tous les threads ont terminé." << std::endl;
+    this_thread::sleep_for(10s);
 
+    thread lateMan(&addSubject, numberOfSubjects);
+
+    lateMan.join();
+    adminCourt.detach();
     return 0;
 }

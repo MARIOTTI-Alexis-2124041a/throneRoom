@@ -4,25 +4,28 @@
 #include <iostream>
 #include <thread>
 #include <semaphore>
-#include "./globals.cpp"
+#include "./globals.h"
 
 using namespace std;
 
 class King {
+private:
     void answerFavor(){
-        cout << "Ta faveur est exaucé" << endl;
+        cout << "King : Ta faveur est exaucé" << endl;
     }
 public:
 
-    King(){}
 
-    void administerTheCourt(){
-        subject.acquire();
-        king.release();
+    [[noreturn]] void administerTheCourt(){
+        while (true) {
+            subject.acquire();
+            king.release();
 
-        this->answerFavor();
+            this->answerFavor();
 
-        subjectDone.acquire();
-        kingDone.release();
+            subjectDone.acquire();
+            kingDone.release();
+            this_thread::sleep_for(1s);
+        }
     }
 };

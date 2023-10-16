@@ -1,10 +1,12 @@
 #include <iostream>
-#include "globals.cpp"
+#include "globals.h"
 
 class Subject {
     public:
 
-    Subject();
+    unsigned subjectNumber;
+
+    Subject(unsigned subjectNum) : subjectNumber(subjectNum){}
 
     void joinTheQueue() {
         queueMutex.acquire();
@@ -14,23 +16,24 @@ class Subject {
         }
         else {
             subjects ++;
+            queueMutex.release();
+            subject.release();
+            king.acquire();
+            askQuestion();
+            subjectDone.release();
+            kingDone.acquire();
+            queueMutex.acquire();
+            subjects --;
+            queueMutex.release();
         }
-        queueMutex.release();
-        king.acquire();
-        askQuestion();
-        subjectDone.release();
-        kingDone.acquire();
-        queueMutex.acquire();
-        subjects --;
-        queueMutex.release();
     }
 
     private:
     void balk() {
-        std::cout << "Jme tire" << std::endl;
+        std::cout << "Subject : Goodbye, i'm "<< subjectNumber << std::endl;
     }
 
     void askQuestion() {
-        std::cout<<"The subject ask a question to the king." << std::endl;
+        std::cout<<"Subject : The subject " << subjectNumber << " ask a question to the king." << std::endl;
     }
 };

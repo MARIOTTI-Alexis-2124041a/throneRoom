@@ -3,11 +3,12 @@
 //
 
 #include <semaphore>
+#include <atomic>
 
 using namespace std;
 
-unsigned  n = 10;
-unsigned  subjects = 0;
+unsigned n = 10;
+unsigned subjects = 0;
 
 binary_semaphore queueMutex(1);
 binary_semaphore king(0);
