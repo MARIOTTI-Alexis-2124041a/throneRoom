@@ -1,6 +1,7 @@
 #include <iostream>
 #include "globals.h"
 
+//Class used to represent subjects
 class Subject {
     public:
 
