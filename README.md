@@ -9,4 +9,4 @@ The king processes the request one by one.
 The subjects wait on an empty chair in the throne room.
 When the room is empty majesty sleeps on her throne.
 When the king is asleep and someone enter the room, the jester wakes up the king, 
-When the room is full, the subjects go back in the city.
+When the room is full, the subjects go back in the city. 
