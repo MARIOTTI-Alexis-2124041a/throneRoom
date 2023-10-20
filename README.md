@@ -13,4 +13,4 @@ When the room is full, the subjects go back in the city.
 
 **We do not pay attention to the order of display of the different costs in the terminal. This is why we did not use a semaphore on the terminal.**
 
-**This project can be build with cmake and qmake. It's work in QT Creator.**
+**This project can be build with cmake and qmake. It works in QT Creator.**
