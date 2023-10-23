@@ -24,7 +24,7 @@ int main() {
 
     // filling the vector of subjects
     unsigned numberOfSubjects = 0;
-    for (int i = 0; i < 150; i++) {
+    for (unsigned i = 0; i < 150; ++i) {
         subjectsVector.emplace_back(&addSubject, numberOfSubjects);
         numberOfSubjects += 1;
     }
